@@ -3,6 +3,6 @@
 int main(void)
 {
 		InitSdcard();
-		SdcardWriteAction("test,txt" , "Hello \r\n");
+		SdcardWriteAction("test.txt" , "Hello \r\n");
 		while(1);
 }
