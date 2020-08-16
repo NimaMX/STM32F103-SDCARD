@@ -57,7 +57,6 @@ void _mountSdcard(void)
 			}
 			else
 			{
-				InitIniting(200);
 				state_mount = SDCARD_MOUNTED;
 				state_unmount = SDCARD_NOT_UNMOUNTED;
 			}
@@ -78,7 +77,6 @@ void _unmountSdcard(void)
 			}
 			else
 			{
-				InitIniting(200);
 				state_unmount = SDCARD_UNMOUNTED;
 				state_mount = SDCARD_NOT_MOUNTED;
 			}
@@ -103,23 +101,17 @@ void _openfile(char *file_name , openType_t type , FIL *fil)
 
 				if(f_open(fil , file_name , FA_OPEN_ALWAYS | FA_READ | FA_WRITE))
 					sdcardErrorHandle(SDCARD_ERROR_MOUNT , "Failed to open -R/W file");
-				else
-					InitIniting(100);
 
 		}
 		else if(type == READ_FILE) {
 
 			if(f_open(fil , file_name , FA_READ))
 				sdcardErrorHandle(SDCARD_ERROR_MOUNT , "Failed to open -R file");
-			else
-				InitIniting(100);
 		}
 		else if(type == WRITE_FILE)
 		{
 				if(f_open(fil , file_name , FA_OPEN_ALWAYS | FA_WRITE))
 					sdcardErrorHandle(SDCARD_ERROR_MOUNT , "Failed to open -W file");
-				else
-					InitIniting(100);
 		}
 		else return;
 }
@@ -128,8 +120,6 @@ void _closefile(FIL *fil)
 {
 	 if(f_close(fil) != FR_OK)
 		 sdcardErrorHandle(SDCARD_ERROR_MOUNT , "Failed to close file");
-	 else
-		 InitIniting(100);
 }
 
 storage_info_t getSpaceInfo()
@@ -139,8 +129,6 @@ storage_info_t getSpaceInfo()
 	 //
 	 if(f_getfree("" , &fre_clus , &pfatfs) != FR_OK)
 		 sdcardErrorHandle(SDCARD_ERROR_MOUNT , "Failed to get space info");
-	 else
-		 InitIniting(500);
 
 	 info.totalsize = (uint32_t)((pfatfs->n_fatent - 2) * pfatfs->csize * 0.5);
 	 info.freesize = (uint32_t)(fre_clus * pfatfs->csize * 0.5);
@@ -157,8 +145,6 @@ void _makeDirectory(char *dir_name)
 
 		if(f_mkdir(dir_name) != FR_OK)
 		 sdcardErrorHandle(SDCARD_ERROR_MOUNT , "Failed to get space info");
-		else
-		 InitIniting(500);
 
 		_unmountSdcard();
 }
